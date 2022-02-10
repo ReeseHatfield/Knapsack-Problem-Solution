@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class GeneticAlgorithm {
     public static ArrayList<Item> readData(String filename) throws FileNotFoundException{
         ArrayList<Item> items = new ArrayList<>();//this should be returned
-
+        //make sure this is on github
         Scanner reader = new Scanner(new File(filename));
         while(reader.hasNextLine()){
             String currentLine = reader.nextLine();
@@ -67,7 +67,7 @@ public class GeneticAlgorithm {
 
             System.out.println(population);
         }
-        Collections.sort(population);
+       // Collections.sort(population);
         System.out.println("The best solution is " + population.get(0));
 
 
