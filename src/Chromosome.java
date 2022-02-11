@@ -1,81 +1,54 @@
 import java.util.ArrayList;
 import java.util.Random;
-//Is this an ArrayList of type Boolean?
 public class Chromosome extends ArrayList<Item> implements Comparable<Chromosome> {
-    private static Random rng = new Random();
+    private final static Random rng = new Random();
     public Chromosome(){
-        //no arg constructor can be empty
-        //should be used in the crossover when a child is created
+        //no argument constructor is used in the crossover when a child is created
     }
     public Chromosome(ArrayList<Item> items){
-        for(int i = 0; i < items.size(); i++){
-            //items.get(i).setIncluded(rng.nextBoolean());
-            this.add(new Item(items.get(i)));
+        for (Item item : items) {
+            Item newItem = new Item(item);
+            newItem.setIncluded(rng.nextBoolean());
+            this.add(newItem);
         }
-        for(Item s : this){
-            s.setIncluded(rng.nextBoolean());
-        }
-
-
-        //Adds	a copy	of	each	of	the	items	passed	in	to	this	Chromosome.	Uses	a	random
-        //number	to	decide	whether	each	item’s	included	field	is	set	to	true	or	false.
-//        int tracker = rng.nextInt(items.size());
-//        ArrayList<Integer> usedInts = new ArrayList<>();
-//        int size = 0;
-//        while(size < items.size()){
-//            if(!usedInts.contains(tracker)){
-//                usedInts.add(tracker);
-//                items.get(tracker).setIncluded(rng.nextBoolean());
-//                this.add(new Item(items.get(tracker)));//thanks Dr. Cheatham
-//                size++;
-//            }
-//            tracker = rng.nextInt(items.size());
-//        }
     }
     public Chromosome crossover(Chromosome other){
         Chromosome child = new Chromosome();
         int itemTracker = 0;
         while(child.size() < other.size()){
             if(rng.nextBoolean()){
-                child.add(this.get(itemTracker));
+                child.add(new Item(this.get(itemTracker)));
             }
             else {
-                child.add(other.get(itemTracker));
+                child.add(new Item(other.get(itemTracker)));
             }
             itemTracker++;
         }
         return child;
-        //Creates	and	returns	a	new	child	chromosome	by	performing	the	crossover
-        //operation	on	this	chromosome	and	the	other	one	that	is	passed	in	(i.e.	for	each	item,	use
-        //a	random	number	to	decide	which	parent’s	item	should	be	copied	and	added	to	the	child).
-
     }
     public void mutate(){
         for(Item s : this){
-            if(rng.nextBoolean()){
-                s.setIncluded(!s.isIncluded());//flips the bool
+            if(rng.nextInt(10) == 0){
+                s.setIncluded(!s.isIncluded());
             }
+            //for everything item in this chromosome, it has a 10% chance to flip the bool to whatever it is not currently set to
         }
-        //Performs	the	mutation	operation	on	this	chromosome	(i.e.	for	each	item	in	this
-        //chromosome,	use	a	random	number	to	decide	whether		to	slip	it&rsquo;s	included	field	from
-        //true	to	false	or	vice	versa).
     }
     public int getFitness(){
-        int totalWeight = 0;
         int totalValue = 0;
+        double totalWeight = 0;
+        //I originally had this as an Int and spent at least an hour trying to find the bug >:(
         for(Item s : this){
             if(s.isIncluded()){
                 totalValue += s.getValue();
                 totalWeight += s.getWeight();
             }
-
         }
-        if(totalWeight < 10){
-            return totalValue;
-        }
-        else {
+        if(totalWeight > 10){
             return 0;
         }
+        return totalValue;
+        //sums the price and weight values for all included items and returns value if weight is less than 10
     }
     public int compareTo(Chromosome other){
         return Integer.compare(other.getFitness(), this.getFitness());

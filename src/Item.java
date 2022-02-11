@@ -15,6 +15,7 @@ public class Item {
         this.weight = other.weight;
         this.value = other.value;
         this.included = other.included;
+        //this constructor sets the item to the exact stats of the other, making a copy
     }
 
     public double getWeight() {
@@ -36,5 +37,6 @@ public class Item {
     @Override
     public String toString() {
         return name + " " + "(" + weight + " lbs. $" + value + ")";
+        //toString returns a string with all information about the item
     }
 }
