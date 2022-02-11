@@ -11,6 +11,7 @@ public class Chromosome extends ArrayList<Item> implements Comparable<Chromosome
             newItem.setIncluded(rng.nextBoolean());
             this.add(newItem);
         }
+        //Chromosome is made with every Item passed in, randomly setting included to true or false
     }
     public Chromosome crossover(Chromosome other){
         Chromosome child = new Chromosome();
@@ -31,7 +32,8 @@ public class Chromosome extends ArrayList<Item> implements Comparable<Chromosome
             if(rng.nextInt(10) == 0){
                 s.setIncluded(!s.isIncluded());
             }
-            //for everything item in this chromosome, it has a 10% chance to flip the bool to whatever it is not currently set to
+            //for everything item in this chromosome, it has a 10% chance to flip the
+            // bool to whatever it is not currently set to
         }
     }
     public int getFitness(){
@@ -53,18 +55,17 @@ public class Chromosome extends ArrayList<Item> implements Comparable<Chromosome
     public int compareTo(Chromosome other){
         return Integer.compare(other.getFitness(), this.getFitness());
         //this should be a compressed version of the if, else if, and else return statements
+        //IDE recommends this instead
     }
     public String toString(){
         StringBuilder returnString = new StringBuilder();
         for(Item s : this){
             if(s.isIncluded()){
-                returnString.append("T ");
-            }
-            else {
-                returnString.append("F ");
+                returnString.append(s).append(", ");
             }
         }
         returnString.append("The value is ").append(getFitness());
         return returnString.toString();
+        //returns a string with all included items in the Chromosome, as well as the value
     }
 }

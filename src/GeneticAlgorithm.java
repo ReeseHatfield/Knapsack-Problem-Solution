@@ -30,7 +30,7 @@ public class GeneticAlgorithm {
     public static void main(String[] args) throws FileNotFoundException {
         ArrayList<Item> items = readData("more_items.txt");//parses the data into items
         //System.out.println(items);
-        int populationSize = 1000;
+        int populationSize = 20000;
         int generations = 5000;
         //these integers can be tweaked to yield better results
         //I've found that if the population size is too low, no matter how many generations, you may not get a good solution, so
@@ -62,11 +62,11 @@ public class GeneticAlgorithm {
                 // of them to the next generation
             }
 
-            System.out.println(population);
+            System.out.println("This is population #" + (i+1) + " " + population);
             Collections.shuffle(population);//randomizes population for pairing off
         }
         Collections.sort(population);
-        System.out.println("The fittest solution is " + population.get(0));
+        System.out.println( "\n" +"The fittest solution is " + population.get(0));
         System.out.println("This solution was found with a population size of " + populationSize + " and " + generations + " generations");
     }
 }
